@@ -175,6 +175,14 @@ body {
 .pa-head:hover {
   color: #06bbcc;
 }
+
+/* ===================== Ins-sign-in */
+.Ins-sign-in {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .sign-Up {
   display: flex;
   align-items: center;
@@ -246,6 +254,13 @@ body {
   gap: 10px;
   justify-content: space-between;
 }
+.flex-row-google {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+}
 
 .flex-row > div > label {
   font-size: 14px;
@@ -302,7 +317,20 @@ body {
 
 .btn-sign:hover {
   border: 1px solid #2d79f3;
+  background-color: #06bbcc;
+  color: white;
 }
+
+@media (max-width: 540px) {
+  .form-signin {
+    top: 5px;
+    height: auto;
+    margin-bottom: 53px;
+    max-width: 111%;
+  }
+}
+
+/*============================================================*/
 
 .image-overlay {
   position: absolute;
@@ -1077,33 +1105,40 @@ ul {
 }
 
 /*Google*/
-button-gogle {
-  max-width: 280px;
+.signin-google {
+  float: right;
+  max-width: 320px;
   display: flex;
   padding: 0.5rem 1.4rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 700;
   text-align: center;
-  text-transform: uppercase;
+  font-family: "Montserrat", sans-serif;
   vertical-align: middle;
   align-items: center;
   border-radius: 0.5rem;
-  border: 1px solid rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   gap: 0.75rem;
-  color: rgb(65, 63, 63);
-  background-color: #fff;
+  color: #c4d2dc;
+  background-color: #19242b;
   cursor: pointer;
-  transition: all 0.6s ease;
+  transition: all 0.25s cubic-bezier(0, 0.87, 0.12, 1);
 }
 
-.button-gogle svg {
+.signin-google:hover {
+  transform: scale(1.025);
+}
+
+.signin-google:active {
+  transform: scale(0.975);
+}
+
+.signin-google svg {
   height: 24px;
+  width: auto;
 }
 
-.button-gogle:hover {
-  transform: scale(1.02);
-}
 .contact-header {
   background-image: url("../src/Images/new/courses.jpg");
   background-position: center center;

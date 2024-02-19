@@ -13,6 +13,7 @@ import InstructorInfo from "./Compontes/InstructorInf/InstructorInfo";
 import Cart from "./Compontes/cart/Cart";
 import CoursesGategory from "./Compontes/CoursesGategory/CoursesGategory";
 import CheckOut from "./checkout/CheckOut";
+import InstructorSigIn from "./Compontes/InstrucyorSignin/InstructorSigIn";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/coursesgatogry" element={<CoursesGategory />} />
         <Route path="/signup" element={<SingUp />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/infosignin" element={<InstructorSigIn />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<CheckOut />} />
       </Routes>
