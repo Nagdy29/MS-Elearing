@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import c1 from "../Images/course-3.jpg";
 import c2 from "../Images/cat-2.jpg";
 import c3 from "../Images/kids-learning.png";
@@ -15,8 +15,33 @@ import { FaStar } from "react-icons/fa";
 import { Footer } from "./Footer";
 import { motion } from "framer-motion";
 import { fadeIn } from "../Compontes/anamation/variants";
+import { StoreContext } from "../context/Storecontext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const Courses = () => {
+  const navigate = useNavigate();
+
+  const {
+    addcart,
+    removecart,
+    cartItem,
+    setcartItem,
+    url,
+    food_list,
+    _id,
+    token,
+    setToken,
+  } = useContext(StoreContext);
+  console.log(cartItem);
+  const handleadd = (item) => {
+    if (token) {
+      addcart(item._id);
+      toast.success("add to cart");
+    } else {
+      navigate("/login");
+    }
+  };
   return (
     <>
       <div>
@@ -45,12 +70,12 @@ export const Courses = () => {
                         </li>
                       </ol>
                     </nav>
-                    <div className="about-overlay"></div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <div className="about-overlay"></div>
         </div>
         <div>
           <motion.div
@@ -124,146 +149,81 @@ export const Courses = () => {
                 <h2 className="fw-bold fs-1">Our Courses</h2>
               </Col>
               <div className="row gap-5 d-flex align-items-center justify-content-center">
-                <Col lg="3" md="4" className="shadow-lg">
-                  <div className="single__free__course">
-                    <div className="free__course__img mb-3 mt-2">
-                      <Link to="/coursedetails">
-                        <img src={c6} alt="" className="w-100" />
-                      </Link>
-                      <p className="mt-1 fw-bold position-absolute end-0 text-info">
-                        Free
-                      </p>
-                    </div>
-
-                    <div className="free__course__details">
-                      <h6>Basic Web Development Course</h6>
-
-                      <div className=" d-flex align-items-center gap-5 justify-content-between mx-3">
-                        <span className=" d-flex align-items-center gap-2">
-                          <p className="fw-light">
-                            {" "}
-                            <FaBook className="icons-courses" size={25} />{" "}
-                            12Leasons
+                {food_list.map((item) => {
+                  console.log(item._id);
+                  return (
+                    <Col lg="3" md="4" className="shadow-lg">
+                      <div className="single__free__course">
+                        <div className="free__course__img mb-3 mt-2">
+                          <Link to={`/coursedetails/${item._id}`}>
+                            <img
+                              src={url + "/images/" + item.image}
+                              alt=""
+                              className="w-100"
+                            />
+                          </Link>
+                          <p className="mt-1 fw-bold position-absolute end-0 text-info">
+                            {item.price} $
                           </p>
-                        </span>
+                        </div>
 
-                        <span className=" d-flex align-items-center gap-2">
-                          <p className="fw-medium">
-                            {" "}
-                            <IoMdPerson className="icons-courses" size={25} />
-                            12 k
-                          </p>
-                        </span>
+                        <div className="free__course__details">
+                          <h6>{item.name}</h6>
+                          <h6>{item.description}</h6>
+
+                          <div className=" d-flex align-items-center gap-5 justify-content-between mx-3">
+                            <span className=" d-flex align-items-center gap-2">
+                              <p className="fw-light">
+                                {" "}
+                                <FaBook
+                                  className="icons-courses"
+                                  size={25}
+                                />{" "}
+                                {item.lesson}
+                              </p>
+                            </span>
+
+                            <span className=" d-flex align-items-center gap-2">
+                              <p className="fw-medium">
+                                {" "}
+                                <IoMdPerson
+                                  className="icons-courses"
+                                  size={25}
+                                />
+                                12 k
+                              </p>
+                            </span>
+                          </div>
+                          <div className=" d-flex align-items-center gap-5 justify-content-between mx-3">
+                            <span className=" d-flex align-items-center gap-2">
+                              <p className="fw-light">
+                                {" "}
+                                <FaStar
+                                  className="icons-courses"
+                                  size={25}
+                                />{" "}
+                                5.6K
+                              </p>
+                            </span>
+
+                            <span className=" d-flex align-items-center gap-2 mb-2 p-2">
+                              {!cartItem[item._id] ? (
+                                <button
+                                  className="btn btn-outline-info"
+                                  onClick={() => handleadd(item)}
+                                >
+                                  ADD Cart
+                                </button>
+                              ) : (
+                                <p>{cartItem[item._id]}</p>
+                              )}
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                      <div className=" d-flex align-items-center gap-5 justify-content-between mx-3">
-                        <span className=" d-flex align-items-center gap-2">
-                          <p className="fw-light">
-                            {" "}
-                            <FaStar className="icons-courses" size={25} /> 5.6K
-                          </p>
-                        </span>
-
-                        <span className=" d-flex align-items-center gap-2 mb-2 p-2">
-                          <button className="btn btn-outline-info">
-                            ADD Cart
-                          </button>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </Col>
-                <Col lg="3" md="4" className="shadow-lg">
-                  <div className="single__free__course">
-                    <div className="free__course__img mb-3 mt-2">
-                      <img src={c1} alt="" className="w-100" />
-                      <p className="mt-1 fw-bold position-absolute end-0 text-info">
-                        Free
-                      </p>
-                    </div>
-
-                    <div className="free__course__details">
-                      <h6>Basic Web Development Course</h6>
-
-                      <div className=" d-flex align-items-center gap-5 justify-content-between mx-3">
-                        <span className=" d-flex align-items-center gap-2">
-                          <p className="fw-light">
-                            {" "}
-                            <FaBook className="icons-courses" size={25} />{" "}
-                            12Leasons
-                          </p>
-                        </span>
-
-                        <span className=" d-flex align-items-center gap-2">
-                          <p className="fw-medium">
-                            {" "}
-                            <IoMdPerson className="icons-courses" size={25} />
-                            12 k
-                          </p>
-                        </span>
-                      </div>
-                      <div className=" d-flex align-items-center gap-5 justify-content-between mx-3">
-                        <span className=" d-flex align-items-center gap-2">
-                          <p className="fw-light">
-                            {" "}
-                            <FaStar className="icons-courses" size={25} /> 5.6K
-                          </p>
-                        </span>
-
-                        <span className=" d-flex align-items-center gap-2 mb-2 p-2">
-                          <button className="btn btn-outline-info">
-                            ADD Cart
-                          </button>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </Col>
-                <Col lg="3" md="4" className="shadow-lg">
-                  <div className="single__free__course">
-                    <div className="free__course__img mb-3 mt-2">
-                      <img src={c5} alt="" className="w-100" />
-                      <p className="mt-1 fw-bold position-absolute end-0 text-info">
-                        15 $
-                      </p>
-                    </div>
-
-                    <div className="free__course__details">
-                      <h6>Basic Web Development Course</h6>
-
-                      <div className=" d-flex align-items-center gap-5 justify-content-between mx-3">
-                        <span className=" d-flex align-items-center gap-2">
-                          <p className="fw-light">
-                            {" "}
-                            <FaBook className="icons-courses" size={25} />{" "}
-                            12Leasons
-                          </p>
-                        </span>
-
-                        <span className=" d-flex align-items-center gap-2">
-                          <p className="fw-medium">
-                            {" "}
-                            <IoMdPerson className="icons-courses" size={25} />
-                            12 k
-                          </p>
-                        </span>
-                      </div>
-                      <div className=" d-flex align-items-center gap-5 justify-content-between mx-3">
-                        <span className=" d-flex align-items-center gap-2">
-                          <p className="fw-light">
-                            {" "}
-                            <FaStar className="icons-courses" size={25} /> 5.6K
-                          </p>
-                        </span>
-
-                        <span className=" d-flex align-items-center gap-2 mb-2 p-2">
-                          <button className="btn btn-outline-info">
-                            ADD Cart
-                          </button>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </Col>
+                    </Col>
+                  );
+                })}
               </div>
             </Row>
           </div>

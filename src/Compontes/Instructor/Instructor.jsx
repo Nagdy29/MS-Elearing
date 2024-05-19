@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { IoPaperPlaneSharp } from "react-icons/io5";
 import { IoIosPerson } from "react-icons/io";
@@ -14,8 +14,11 @@ import { FaLinkedin } from "react-icons/fa";
 import { Footer } from "./../Footer";
 
 import { FaYoutube } from "react-icons/fa";
+import { StoreContext } from "../../context/Storecontext";
 
 const Instructor = () => {
+  const { persone_list, setpersone, url } = useContext(StoreContext);
+  console.log(persone_list);
   return (
     <>
       <div>
@@ -97,102 +100,51 @@ const Instructor = () => {
           </div>
         </div>
         <div className="container row mx-5 d-flex align-items-center justify-content-center">
-          <div className="col-lg-4 col-md-6 col-12 mb-5">
-            <div className="tp-instructor position-relative">
-              <div>
-                <img src={in1} alt="" />
-              </div>
-              <div class="tp-instructor__content d-flex align-items-center justify-content-center my-3 flex-column">
-                <span>Instructor</span>
-                <h4>
-                  <Link to="/insInfo" className="text-decoration-none name">
-                    Ali Reabe
-                  </Link>
-                </h4>
-              </div>
-              <div className="d-flex align-items-center gap-5">
-                <div className="d-flex gap-2 align-items-center tp-instructor-icons ">
-                  <FaPlayCircle size={28} className="icon-info" />
-                  <h3>35 Classes</h3>
-                </div>
-                <div className="d-flex gap-2 align-items-center tp-instructor-icons ">
-                  <PiStudentBold size={28} className="icon-info" />
-                  <h3>291+ Students</h3>
-                </div>
-              </div>
-              <div className="social-inst position-absolute">
-                <div className="d-flex flex-column gap-2">
-                  <FaFacebookF size={30} className="social-icons" />
-                  <FaLinkedin size={30} className="social-icons" />
-                  <FaYoutube size={30} className="social-icons" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-4 col-md-6 col-12 mb-5">
-            <div className="tp-instructor position-relative">
-              <div>
-                <img src={in2} alt="" />
-              </div>
-              <div class="tp-instructor__content d-flex align-items-center justify-content-center my-3 flex-column">
-                <span>Instructor</span>
-                <h4>
-                  <Link to="/insInfo" className="text-decoration-none name">
-                    Ali Reabe
-                  </Link>
-                </h4>
-              </div>
-              <div className="d-flex align-items-center gap-5">
-                <div className="d-flex gap-2 align-items-center tp-instructor-icons ">
-                  <FaPlayCircle size={28} className="icon-info" />
-                  <h3>35 Classes</h3>
-                </div>
-                <div className="d-flex gap-2 align-items-center tp-instructor-icons ">
-                  <PiStudentBold size={28} className="icon-info" />
-                  <h3>291+ Students</h3>
+          {persone_list.map((item) => {
+            return (
+              <div className="col-lg-4 col-md-6 col-12 mb-5">
+                <div className="tp-instructor position-relative">
+                  <div className="d-flex  ">
+                    <Link to={`/insInfo/${item._id}`}>
+                      <img
+                        src={url + "/images/" + item.image}
+                        alt=""
+                        className="d-flex items-center align-items-baseline justify-content-center "
+                      />
+                    </Link>
+                  </div>
+                  <div class="tp-instructor__content d-flex align-items-center justify-content-center my-3 flex-column">
+                    <span>Instructor</span>
+                    <h4>
+                      <Link
+                        to={`/insInfo/${item._id}`}
+                        className="text-decoration-none name"
+                      >
+                        {item.name}
+                      </Link>
+                    </h4>
+                  </div>
+                  <div className="d-flex align-items-center gap-5">
+                    <div className="d-flex gap-2 align-items-center tp-instructor-icons ">
+                      <FaPlayCircle size={28} className="icon-info" />
+                      <h3>{item.lesson} Classes</h3>
+                    </div>
+                    <div className="d-flex gap-2 align-items-center tp-instructor-icons ">
+                      <PiStudentBold size={28} className="icon-info" />
+                      <h3>291+ Students</h3>
+                    </div>
+                  </div>
+                  <div className="social-inst position-absolute">
+                    <div className="d-flex flex-column gap-2">
+                      <FaFacebookF size={30} className="social-icons" />
+                      <FaLinkedin size={30} className="social-icons" />
+                      <FaYoutube size={30} className="social-icons" />
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="social-inst position-absolute">
-                <div className="d-flex flex-column gap-2">
-                  <FaFacebookF size={30} className="social-icons" />
-                  <FaLinkedin size={30} className="social-icons" />
-                  <FaYoutube size={30} className="social-icons" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-4 col-md-6 col-12 mb-5">
-            <div className="tp-instructor position-relative">
-              <div>
-                <img src={in3} alt="" />
-              </div>
-              <div class="tp-instructor__content d-flex align-items-center justify-content-center my-3 flex-column">
-                <span>Instructor</span>
-                <h4>
-                  <Link to="/insInfo" className="text-decoration-none name">
-                    Ali Reabe
-                  </Link>
-                </h4>
-              </div>
-              <div className="d-flex align-items-center gap-5">
-                <div className="d-flex gap-2 align-items-center tp-instructor-icons ">
-                  <FaPlayCircle size={28} className="icon-info" />
-                  <h3>35 Classes</h3>
-                </div>
-                <div className="d-flex gap-2 align-items-center tp-instructor-icons ">
-                  <PiStudentBold size={28} className="icon-info" />
-                  <h3>291+ Students</h3>
-                </div>
-              </div>
-              <div className="social-inst position-absolute">
-                <div className="d-flex flex-column gap-2">
-                  <FaFacebookF size={30} className="social-icons" />
-                  <FaLinkedin size={30} className="social-icons" />
-                  <FaYoutube size={30} className="social-icons" />
-                </div>
-              </div>
-            </div>
-          </div>
+            );
+          })}
         </div>
         <Footer />
       </div>

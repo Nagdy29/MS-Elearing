@@ -1,10 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { BsBookFill } from "react-icons/bs";
 import { FaShoppingBag } from "react-icons/fa";
-import { Input } from "semantic-ui-react";
+import { StoreContext } from "../context/Storecontext";
+import { IoPersonCircleSharp } from "react-icons/io5";
+import { ToastContainer, toast } from "react-toastify";
 
 export const Navbaar = () => {
+  const navigate = useNavigate();
+
+  const { token, setToken, instData, setinstData, setUserData } =
+    useContext(StoreContext);
+  const LogOut = () => {
+    localStorage.removeItem("token");
+    setToken("");
+    navigate("/");
+    setinstData("");
+    setUserData("");
+    toast.success("account delete");
+  };
   const [scroll, setScroll] = useState(false);
 
   useEffect(() => {
@@ -121,30 +135,57 @@ export const Navbaar = () => {
                   </div>
                 </div>
                 <Link to="/cart" className="d-flex align-items-center">
-                  <div className="shoping-cart text-decoration-none">
+                  <div className="shoping-cart text-decoration-none ">
                     <FaShoppingBag size={30} />
                   </div>
                 </Link>
-                <button className="btn-sup">
-                  <Link
-                    className="text-decoration-none text-white"
-                    to="/signup"
-                  >
-                    SignUp
-                  </Link>
-                  <div class="arrow-wrapper">
-                    <div class="arrow"></div>
-                  </div>
-                </button>
-                <button className="btn btn-outline-success btn-sin  ">
-                  <Link
-                    className="text-decoration-none text-black btn-singin  "
-                    to="/login"
-                  >
-                    {" "}
-                    LogIn{" "}
-                  </Link>
-                </button>
+                <div>
+                  {!token ? (
+                    <div className="d-flex gap-3">
+                      <button className="btn-sup">
+                        <Link
+                          className="text-decoration-none text-white"
+                          to="/signup"
+                        >
+                          SignUp
+                        </Link>
+                        <div class="arrow-wrapper">
+                          <div class="arrow"></div>
+                        </div>
+                      </button>
+                      <button className="btn btn-outline-success btn-sin  ">
+                        <Link
+                          className="text-decoration-none text-black btn-singin  "
+                          to="/login"
+                        >
+                          {" "}
+                          LogIn{" "}
+                        </Link>
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="d-flex gap-3 align-items-center">
+                      <Link to="/userprofile">
+                        <IoPersonCircleSharp
+                          size={35}
+                          className="rounded-5 bg-info"
+                        />
+                      </Link>
+                      <button
+                        onClick={LogOut}
+                        className="btn  btn-danger text-white btn-sin  "
+                      >
+                        <Link
+                          className="text-decoration-none text-white  btn-singin  "
+                          to=""
+                        >
+                          {" "}
+                          LogOut{" "}
+                        </Link>
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

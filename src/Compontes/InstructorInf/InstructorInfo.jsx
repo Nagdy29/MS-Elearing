@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import ins1 from "../Images/team-1.jpg";
 import { FaFacebookF } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
@@ -11,8 +11,24 @@ import { Container, Row, Col } from "reactstrap";
 import { FaBook } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 import c1 from "../../Images/course-catogry.jpg";
+import { StoreContext } from "../../context/Storecontext";
+import axios from "axios";
 
 const InstructorInfo = () => {
+  const { addcart, removecart, cartItem, setcartItem, url, food_list } =
+    useContext(StoreContext);
+  let params = useParams();
+  const [data, setData] = useState([]);
+  const featchFood = async (id) => {
+    const response = await axios.get(`${url}/api/persone/list/${id}`);
+    setData(response.data.data);
+    console.log(data);
+  };
+
+  useEffect(() => {
+    featchFood(params.id);
+    console.log(data);
+  }, []);
   return (
     <>
       <div className="">
@@ -50,34 +66,38 @@ const InstructorInfo = () => {
         <div className="ins-info ">
           <div className="container row  d-flex justify-content-between gap-1 ">
             <div className="col-xl-4 col-md-5 col-12 mb-3 ins-image bg-white ">
-              <img src={ins1} alt="" className="shadow-lg mt-2" />
+              <img
+                src={url + "/images/" + data.image}
+                alt=""
+                className="shadow-lg mt-2"
+              />
               <div className="my-5 d-flex align-items-center justify-content-between tilt-inst">
                 <h4 className="d-flex gap-2">
                   <FaBriefcase size={25} className="icons" />
-                  Job Titlex
+                  Job Title
                 </h4>
-                <p className="d-flex">Lead UX Engineer</p>
+                <p className="d-flex">{data.jobTitle} </p>
               </div>
               <div className="my-5 d-flex align-items-center justify-content-between tilt-inst">
                 <h4 className="d-flex gap-2">
                   <FaPhoneAlt size={25} className="icons" />
                   Phone{" "}
                 </h4>
-                <p className="d-flex">+00 365 9852 65</p>
+                <p className="d-flex"> {data.phone} </p>
               </div>
               <div className="my-5 d-flex align-items-center justify-content-between tilt-inst">
                 <h4 className="d-flex gap-2">
                   <MdMarkEmailUnread size={25} className="icons" />
                   Email{" "}
                 </h4>
-                <p className="d-flex">epora@mail.com</p>
+                <p className="d-flex"> {data.email} </p>
               </div>
             </div>
             <div className="col-xl-6 col-md-6 col-12 d-flex my-3 instr-info position-relative">
               <div className="d-flex text-center head-infoInstr">
                 <div className="d-flex flex-column mx-2">
-                  <h3 className="fs-2 fw-bold">Jim Séchen</h3>
-                  <p className="fw-normal">Teaches Art & Designer</p>
+                  <h3 className="fs-2 fw-bold"> {data.name} </h3>
+                  <p className="fw-normal">{data.jobTitle}</p>
                 </div>
                 <div className="d-flex flex-column mx-5 ">
                   <p>Follow Us:</p>

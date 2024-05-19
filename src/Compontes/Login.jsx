@@ -1,12 +1,53 @@
 import * as React from "react";
-
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { StoreContext } from "../context/Storecontext";
+import { ToastContainer, toast } from "react-toastify";
 
 export const Login = () => {
+  const navigate = useNavigate();
+
+  const { token, setToken, userData, setUserData } = useContext(StoreContext);
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const url = "http://localhost:4000";
+
+  const onChangeHandler = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setData((data) => ({ ...data, [name]: value }));
+  };
+  const onlogIn = async (e) => {
+    e.preventDefault();
+    const response = await axios.post(`${url}/api/user/login`, data);
+
+    if (response.data.success) {
+      //const user = response.data;
+      setUserData(response.data);
+      console.log(userData);
+
+      setToken(response.data.token);
+      localStorage.setItem("token", response.data.token);
+      navigate("/");
+      toast.success("Login sucess");
+    } else {
+      // alert(response.data.message);
+      toast.error(response.data.message);
+    }
+  };
+  useEffect(() => {
+    console.log(data);
+  }, []);
   return (
     <>
       <div className="mx-3 my-5 sign-in  position-relative">
-        <form class="form-signin position-absolute">
+        <form class="form-signin position-absolute" onSubmit={onlogIn}>
           <div className="d-flex align-items-center justify-content-center">
             <p class="title fs-2 fw-bold">Welcome back </p>
           </div>
@@ -25,6 +66,9 @@ export const Login = () => {
               </g>
             </svg>
             <input
+              onChange={onChangeHandler}
+              name="email"
+              value={data.email}
               type="text"
               class="input-pas"
               placeholder="Enter your Email"
@@ -45,6 +89,9 @@ export const Login = () => {
               <path d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0"></path>
             </svg>
             <input
+              onChange={onChangeHandler}
+              name="password"
+              value={data.password}
               type="password"
               class="input-pas"
               placeholder="Enter your Password"

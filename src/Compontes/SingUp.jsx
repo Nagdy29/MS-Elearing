@@ -1,11 +1,45 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { StoreContext } from "../context/Storecontext";
+import { toast } from "react-toastify";
 
 export const SingUp = () => {
+  const navigate = useNavigate();
+
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const { token, setToken } = useContext(StoreContext);
+  const url = "http://localhost:4000";
+
+  const onChangeHandler = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setData((data) => ({ ...data, [name]: value }));
+  };
+  const onlogIn = async (e) => {
+    e.preventDefault();
+    const response = await axios.post(`${url}/api/user/register`, data);
+    if (response.data.success) {
+      navigate("/login");
+    } else {
+      alert(response.data.message);
+    }
+  };
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
   return (
     <>
       <div className="mx-5 m-5 sign-Up position-relative">
-        <form class="form-signin position-absolute">
+        <form class="form-signin position-absolute" onSubmit={onlogIn}>
           <div className="d-flex align-items-center justify-content-center">
             <p class="title fs-2 fw-bold">Create account</p>
           </div>
@@ -24,6 +58,9 @@ export const SingUp = () => {
               </g>
             </svg>
             <input
+              onChange={onChangeHandler}
+              value={data.name}
+              name="name"
               type="text"
               class="input-pas"
               placeholder="Enter your Name"
@@ -44,7 +81,10 @@ export const SingUp = () => {
               </g>
             </svg>
             <input
-              type="text"
+              onChange={onChangeHandler}
+              value={data.email}
+              name="email"
+              type="email"
               class="input-pas"
               placeholder="Enter your Email"
             />
@@ -64,6 +104,9 @@ export const SingUp = () => {
               <path d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0"></path>
             </svg>
             <input
+              onChange={onChangeHandler}
+              value={data.password}
+              name="password"
               type="password"
               class="input-pas"
               placeholder="Enter your Password"
@@ -86,9 +129,9 @@ export const SingUp = () => {
           </div>
           <button class="button-submit">Sign In</button>
           <p class="p">
-            Don't have an account?{" "}
+            Log In?{" "}
             <Link to="/login">
-              <span class="span">Sign Up</span>
+              <span class="span">Sign In</span>
             </Link>
           </p>
           <p class="p">
