@@ -23,11 +23,16 @@ import React, { useContext, useEffect } from "react";
 import Payment from "./Compontes/Payment/Payment";
 
 function App() {
-  const { token, setToken, instData, setinstData, setUserData } =
+  const { token, setToken, instData, userData, setinstData, setUserData } =
     useContext(StoreContext);
   useEffect(() => {
     if (localStorage.getItem("token")) {
       setToken(localStorage.getItem("token"));
+    }
+    if (localStorage.getItem("myData")) {
+      const storedData = localStorage.getItem("myData");
+      const dataObject = JSON.parse(storedData);
+      setUserData(dataObject);
     }
   }, []);
   return (

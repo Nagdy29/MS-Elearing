@@ -215,7 +215,14 @@ export const Courses = () => {
                                   ADD Cart
                                 </button>
                               ) : (
-                                <p>{cartItem[item._id]}</p>
+                                <p>
+                                  {" "}
+                                  <Link to="/cart">
+                                    <button className="btn  btn-primary">
+                                      Go To Cart
+                                    </button>
+                                  </Link>
+                                </p>
                               )}
                             </span>
                           </div>

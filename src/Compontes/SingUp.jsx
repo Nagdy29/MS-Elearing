@@ -15,8 +15,9 @@ export const SingUp = () => {
     name: "",
     email: "",
     password: "",
+    phone: "",
   });
-  const { token, setToken } = useContext(StoreContext);
+  const { token, setToken, userData, setUserData } = useContext(StoreContext);
   const url = "http://localhost:4000";
 
   const onChangeHandler = (e) => {
@@ -27,10 +28,11 @@ export const SingUp = () => {
   const onlogIn = async (e) => {
     e.preventDefault();
     const response = await axios.post(`${url}/api/user/register`, data);
+
     if (response.data.success) {
       navigate("/login");
     } else {
-      alert(response.data.message);
+      toast.error(response.data.message);
     }
   };
   useEffect(() => {
@@ -87,6 +89,19 @@ export const SingUp = () => {
               type="email"
               class="input-pas"
               placeholder="Enter your Email"
+            />
+          </div>
+          <div class="flex-column">
+            <label>Phone: </label>
+          </div>
+          <div class="inputForm">
+            <input
+              onChange={onChangeHandler}
+              value={data.phone}
+              name="phone"
+              type="number"
+              class="input-pas"
+              placeholder="Enter your Phone"
             />
           </div>
 

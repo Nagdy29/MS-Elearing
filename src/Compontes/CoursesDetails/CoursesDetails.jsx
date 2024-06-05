@@ -74,7 +74,9 @@ const CoursesDetails = () => {
           </div>
         </div>
         <div className="d-flex align-items-center justify-content-center text-details my-3">
-          <h2 className="fw-bold">Course information</h2>
+          <h2 className="fw-bold ">
+            Course Name : <span className="text-black">{data.name}</span>{" "}
+          </h2>
         </div>
         {data ? (
           <div className="container gap-2 row d-flex justify-content-between align-items-center">
@@ -159,7 +161,11 @@ const CoursesDetails = () => {
                           </div>
                         ) : (
                           <p className="d-flex justify-content-center fw-bold text-success w-100 fs-4">
-                            add to cart
+                            <Link to="/cart">
+                              <button className="btn  btn-primary">
+                                Go To Cart
+                              </button>
+                            </Link>
                           </p>
                         ),
                       ]}

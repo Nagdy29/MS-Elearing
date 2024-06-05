@@ -13,6 +13,7 @@ export const Navbaar = () => {
     useContext(StoreContext);
   const LogOut = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("myData");
     setToken("");
     navigate("/");
     setinstData("");

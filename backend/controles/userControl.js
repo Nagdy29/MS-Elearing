@@ -16,9 +16,9 @@ const loginUser = async (req, res) => {
     if (!isMatch) {
       return res.json({ success: false, message: "invaild pass" });
     }
-    const { _id: id, name } = user;
+    const { _id: id, name, phone } = user;
     const token = createToken(user._id);
-    res.json({ success: true, token, id, name, email });
+    res.json({ success: true, token, id, name, email, phone });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: "Error" });
@@ -26,17 +26,21 @@ const loginUser = async (req, res) => {
 };
 
 const createToken = (id, name) => {
-  return jwt.sign({ id, name }, "nagdy");
+  return jwt.sign({ id }, "nagdy");
 };
 // register
 
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, phone } = req.body;
   try {
     // check is ready exists
     const exists = await userModel.findOne({ email });
     if (exists) {
       return res.json({ success: false, message: " email already exists " });
+    }
+    const existsNU = await userModel.findOne({ phone });
+    if (existsNU) {
+      return res.json({ success: false, message: "Error Number" });
     }
     if (!validator.isEmail(email)) {
       return res.json({ success: false, message: " email not valide " });
@@ -53,11 +57,12 @@ const registerUser = async (req, res) => {
       name: name,
       email: email,
       password: hasPass,
+      phone: phone,
     });
     const user = await newUser.save();
     const { _id: id } = user;
     const token = createToken(user._id);
-    res.json({ success: true, token, name, id });
+    res.json({ success: true, token, name, id, phone, email });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: "Error" });

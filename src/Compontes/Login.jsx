@@ -26,14 +26,13 @@ export const Login = () => {
   const onlogIn = async (e) => {
     e.preventDefault();
     const response = await axios.post(`${url}/api/user/login`, data);
-
+    console.log(response.data);
     if (response.data.success) {
-      //const user = response.data;
       setUserData(response.data);
-      console.log(userData);
 
       setToken(response.data.token);
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("myData", JSON.stringify(response.data));
       navigate("/");
       toast.success("Login sucess");
     } else {
@@ -41,6 +40,8 @@ export const Login = () => {
       toast.error(response.data.message);
     }
   };
+  console.log(userData);
+
   useEffect(() => {
     console.log(data);
   }, []);
